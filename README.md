@@ -1,42 +1,26 @@
-# Nuxt 3 Minimal Starter
+# Nuxt 3 notes app
 
-Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
+Live static site: [http://nuxt3-vue-quill.s3-website-eu-west-1.amazonaws.com/](http://nuxt3-vue-quill.s3-website-eu-west-1.amazonaws.com/)
 
-## Setup
+Built with:
 
-Make sure to install the dependencies:
+ - [nuxt 3](https://github.com/nuxt/framework)
+ - [vue-quill](https://github.com/vueup/vue-quill)
+ - [tailwind](https://github.com/tailwindlabs/tailwindcss)
+ - [localforage](https://github.com/localForage/localForage)
 
-```bash
-# yarn
-yarn install
 
-# npm
-npm install
+Don't write any serious notes here, I built this in a few hours using vue-quill, all I did was use localstorage to save notes client side.
 
-# pnpm
-pnpm install --shamefully-hoist
-```
+Pretty sure I went wrong with how I implemented composables & syncing to localstorage...
 
-## Development Server
 
-Start the development server on http://localhost:3000
-
-```bash
-npm run dev
-```
 
 ## Production
 
-Build the application for production:
+`npm run build && npm run generate`
 
-```bash
-npm run build
-```
 
-Locally preview production build:
+Edit the "deploy" script in `package.json` to use your own s3 bucket and aws profile, then `npm run deploy`
 
-```bash
-npm run preview
-```
 
-Checkout the [deployment documentation](https://v3.nuxtjs.org/guide/deploy/presets) for more information.

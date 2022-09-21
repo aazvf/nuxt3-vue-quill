@@ -1,14 +1,14 @@
 <template>
-    <div class="min-h-screen bg-yellow-50 bgg">
-        <div class="w-full flex flex-wrap space-between">
+    <div class="min-h-screen bg-yellow-50 font-mono">
+        <div class="w-full flex flex-wrap space-between select-none">
             <div
                 class="border px-5 py-3 leading-32 border-purple-200 text-purple-800 cursor-pointer"
-                :class="active_note_meta.content.length === 0 ? 'bg-yellow-200 italic' : ''"
-                v-on:click="newNote()"
+                :class="active_note_meta.content.length === 0 ? 'bg-yellow-200 italic border-purple-300 shadow-md' : 'text-slate-500'"
+                v-on:click="$notes().newNote()"
             >New Note</div>
             <div
                 class="flex-auto text-center border px-5 py-3 border-purple-200 text-purple-800 cursor-pointer"
-                :class="note.id === active_note_meta.id ? 'bg-yellow-200 italic' : 'text-purple-400'"
+                :class="note.id === active_note_meta.id ? 'bg-yellow-200 italic border-purple-300 shadow-md' : 'text-slate-500'"
                 v-for="(note) in notes"
                 :key="note.id"
                 v-on:click="switch_to_note(note.id)"
@@ -16,26 +16,20 @@
         </div>
         <!-- <div>{{ note_list }}</div> -->
         <!-- <div>{{ active_note }}</div> -->
-        <QuillEditor
-            theme="snow"
-            :toolbar="toolbar"
-            v-model:content="active_note"
-            content-type="html"
-            :key="note_key"
-        />
+
+        <client-only>
+            <editor />
+        </client-only>
     </div>
 </template>
 
 
 <script lang="ts" setup>
 import "./assets/css/tailwind.css";
-import { QuillEditor } from "@vueup/vue-quill";
-import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
-const active_note = useNote();
 const active_note_meta = useNoteMeta();
 const note_list = useNoteList();
-const note_key = useNoteKey();
+
 const { $notes } = useNuxtApp();
 
 const switch_to_note = (id) => {
@@ -47,11 +41,6 @@ const switch_to_note = (id) => {
 onMounted(() => {
     $notes().restoreNotes();
 });
-const newNote = () => {
-    console.log($notes);
-    $notes().newNote();
-    // note_list.value.push();
-};
 
 const notes = computed(() => {
     return note_list.value
@@ -64,26 +53,4 @@ const notes = computed(() => {
         })
         .filter((note) => note.content.length > 0);
 });
-
-const toolbar = [
-    ["bold", "italic", "underline", "strike"],
-    ["blockquote", "code-block"],
-
-    [{ header: 1 }, { header: 2 }],
-    [{ list: "ordered" }, { list: "bullet" }],
-    // [{ script: "sub" }, { script: "super" }],
-    // [{ indent: "-1" }, { indent: "+1" }],
-    // [{ direction: "rtl" }],
-
-    [{ size: ["small", false, "large", "huge"] }],
-    // [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-    [{ color: [] }, { background: [] }],
-    [{ font: [] }],
-    [{ align: [] }],
-
-    ["link"],
-    // ["link", "image", "video", "background"],
-    ["clean"],
-];
 </script>
